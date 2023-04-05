@@ -10,7 +10,7 @@ export const OrderConfirm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Confirm Order | Ecom-Store shopping platform";
+    document.title = "Confirm Order | e-mart shopping platform";
   }, []);
 
   return (

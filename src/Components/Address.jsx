@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../API";
 import {
   getAddressData,
   getAddressError,
@@ -25,7 +26,7 @@ export const Address = () => {
   const [state, setState] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const { cart_products, quantity, itemQty } = useSelector(
+  const { cart_products, quantity, itemQty, cart } = useSelector(
     (state) => state.cart_products
   );
   const { userId, token } = useSelector((state) => state.login);
@@ -44,7 +45,7 @@ export const Address = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    document.title = "Your Address | Ecom-Store shopping platform";
+    document.title = "Your Address | e-mart shopping platform";
   }, []);
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export const Address = () => {
     userId,
   };
   const addressSubmit = () => {
-    fetch(`https://emart-server.herokuapp.com/user/address`, {
+    fetch(`${API_URL}/user/address`, {
       method: "POST",
       body: JSON.stringify(addressData),
       headers: {
@@ -88,7 +89,8 @@ export const Address = () => {
   const removeAddress = () => {
     dispatch(getAddressLoading());
 
-    fetch(`https://emart-server.herokuapp.com/user/address/delete/${userId}`, {
+    fetch(`${API_URL}/user/address/delete/${userId}`, {
+      
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json",
@@ -103,6 +105,7 @@ export const Address = () => {
       .catch((error) => dispatch(getAddressError(error)));
   };
 
+  const deleteData = () => {};
 
   return (
     <div>
@@ -137,6 +140,7 @@ export const Address = () => {
                         address={address}
                         token={token}
                         userId={userId}
+                        deleteData={deleteData}
                         setIsOpen={setIsOpen}
                       />
                     )}

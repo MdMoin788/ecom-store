@@ -15,6 +15,9 @@ const initState = {
   userId: "",
 };
 
+
+
+
 const loginReducer = (store = initState, { type, payload }) => {
   switch (type) {
     case LOGIN_LOADING:

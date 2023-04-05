@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "./Slider.css";
 import { ProductCard } from "./ProductCard";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsData } from "../Redux/Products/action";

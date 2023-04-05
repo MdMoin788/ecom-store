@@ -6,13 +6,21 @@ import { WomenSlider } from "./Slider";
 import { Carousel } from "./Carousel";
 import { Footer } from "./Footer";
 import "./Styles/Home.css";
+import { getCartProductsData } from "../Redux/Cart/action";
 import { BigCard } from "./BigCard";
-
+import { UserNameShow } from "./UserNameShow";
+import { getVisitURL } from "../Redux/VisitURL/action";
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
   const { products } = useSelector((state) => state.products);
+  const { user, isAuthenticated } = useSelector((state) => state.login);
 
+  useEffect(() => {
+    document.title = "Home | e-mart shopping platform";
+    dispatch(getVisitURL("/"));
+  }, []);
 
   useEffect(() => {
     dispatch(getProductsData());
@@ -29,17 +37,16 @@ export const Home = () => {
         </div>
         <div className="big_card_container">
           <BigCard
-     
             img={
-              "https://ik.imagekit.io/thestylist/rba/pub/media_rb/HOMEPAGE_IMAGES/07_Dec_21/Rohit_Bal.png"
+              "https://ik.imagekit.io/thestylist/rba/pub/media_rb/HOMEPAGE_IMAGES/05_Apr_22/1_(1).jpg"
             }
             txt={"Women Clothes"}
             link={"/shop/women"}
           />
           <BigCard
-               img={
-                "https://ik.imagekit.io/thestylist/rba/pub/media_rb/HOMEPAGE_IMAGES/05_Apr_22/1_(1).jpg"
-              }
+            img={
+              "https://ik.imagekit.io/thestylist/rba/pub/media_rb/HOMEPAGE_IMAGES/07_Dec_21/Rohit_Bal.png"
+            }
             txt={"Men Clothes"}
             link={"/"}
           />
@@ -61,6 +68,7 @@ export const Home = () => {
         <WomenSlider products={products} />
       </div>
 
+      {/* <UserNameShow name={user.name} /> */}
 
       <Footer />
     </div>

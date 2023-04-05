@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartProductsData } from "../Redux/Cart/action";
 import { WomenSlider } from "./Slider";
+import { SizeDiv } from "./StyleComponent";
 import { getWishlistProductsData } from "../Redux/Wishlist/action";
 import { getVisitURL } from "../Redux/VisitURL/action";
+import { API_URL } from "../API";
 
 export const ProductDetailsPage = () => {
   const [img, setImg] = useState();
@@ -22,6 +24,7 @@ export const ProductDetailsPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const { cart_products } = useSelector((state) => state.cart_products);
   const { products } = useSelector((state) => state.products);
   const { userId, token, isAuthenticated } = useSelector(
     (state) => state.login
@@ -37,12 +40,12 @@ export const ProductDetailsPage = () => {
   }, [id]);
 
   useEffect(() => {
-    document.title = `${data.name} | Ecom-Store`;
+    document.title = `${data.name} | e-mart`;
     dispatch(getVisitURL(`/product/${id}/${data.name}`));
   }, [data]);
 
   const findData = () => {
-    fetch(`https://emart-server.herokuapp.com/products/${id}`)
+    fetch(`${API_URL}/products/${id}`)
       .then((res) => res.json())
       .then((res) => {
         setData({ ...res.product });
@@ -54,7 +57,7 @@ export const ProductDetailsPage = () => {
 
   const cartHandle = () => {
     if (cartAdd) {
-      fetch(`https://emart-server.herokuapp.com/cart/items`, {
+      fetch(`${API_URL}/cart/items`, {
         method: "POST",
         body: JSON.stringify({ productId: id, userId, quantity: 1 }),
         headers: {
@@ -73,7 +76,7 @@ export const ProductDetailsPage = () => {
   ///items/find/:userId/:id
   const checkingCartItem = () => {
     fetch(
-      `https://emart-server.herokuapp.com/cart/items/find/${userId}/${id}`,
+      `${API_URL}/cart/items/find/${userId}/${id}`,
       {
         method: "GET",
         headers: {
@@ -91,7 +94,7 @@ export const ProductDetailsPage = () => {
 
   const checkingWishlistItem = () => {
     fetch(
-      `https://emart-server.herokuapp.com/wishlist/items/find/${userId}/${id}`,
+      `${API_URL}/wishlist/items/find/${userId}/${id}`,
       {
         method: "GET",
         headers: {
@@ -108,7 +111,7 @@ export const ProductDetailsPage = () => {
   };
 
   const wishlistHandle = () => {
-    fetch(`https://emart-server.herokuapp.com/wishlist/items`, {
+    fetch(`${API_URL}/wishlist/items`, {
       method: "POST",
       body: JSON.stringify({ productId: id, userId }),
       headers: {
@@ -123,6 +126,7 @@ export const ProductDetailsPage = () => {
 
       .catch((error) => console.log(error));
   };
+  const how = () => {};
 
   return (
     <div>
@@ -182,12 +186,13 @@ export const ProductDetailsPage = () => {
             </p>
             <div>
               <h3>SELECT SIZE</h3>
-              <div className="product_size">
+              <SizeDiv className="product_size">
                 {size.map((e, i) => (
                   <div
                     key={i}
-                    className={`single_size_class ${selectClass === i ? "active" : ""
-                      }`}
+                    className={`single_size_class ${
+                      selectClass === i ? "active" : ""
+                    }`}
                     eachdiv={selectClass}
                     onClick={() => {
                       setSizeSelect(true);
@@ -198,7 +203,7 @@ export const ProductDetailsPage = () => {
                     {e}
                   </div>
                 ))}
-              </div>
+              </SizeDiv>
               {sizeSelect ? (
                 <p> </p>
               ) : (
@@ -215,6 +220,9 @@ export const ProductDetailsPage = () => {
                       ? cartHandle()
                       : navigate("/user/login");
 
+                    isAuthenticated === "true"
+                      ? checkingCartItem()
+                      : navigate("/user/login");
                   }}
                 >
                   <i className="bx bx-cart-add"></i> ADD TO CART
@@ -227,8 +235,9 @@ export const ProductDetailsPage = () => {
 
               {wishCheck ? (
                 <button
-                  className={`add_to_cart_btn wishlist_btn ${!check ? "disabled_btn" : null
-                    }`}
+                  className={`add_to_cart_btn wishlist_btn ${
+                    !check ? "disabled_btn" : null
+                  }`}
                   onClick={() => {
                     isAuthenticated === "true"
                       ? wishlistHandle()

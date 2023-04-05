@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { API_URL } from "../API";
 import {
   getCartProductsData,
+  getCartProductsSuccess,
 } from "../Redux/Cart/action";
 
 export const CartPageCard = ({
@@ -10,9 +13,11 @@ export const CartPageCard = ({
   oldPrice,
   newPrice,
   off,
+  category,
   description,
   itemQty,
   cartId,
+  index,
 }) => {
   const [incQty, setIncQty] = useState(itemQty);
 
@@ -29,7 +34,7 @@ export const CartPageCard = ({
   }, [incQty]);
 
   const cartHandle = () => {
-    fetch(`https://emart-server.herokuapp.com/cart/items/update/${cartId}`, {
+    fetch(`${API_URL}/cart/items/update/${cartId}`, {
       method: "PATCH",
       body: JSON.stringify({ quantity: incQty }),
       headers: {
@@ -44,7 +49,7 @@ export const CartPageCard = ({
   };
 
   const cartMoreHandle = () => {
-    fetch(`https://emart-server.herokuapp.com/cart/items/delete/${cartId}`, {
+    fetch(`${API_URL}/cart/items/delete/${cartId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

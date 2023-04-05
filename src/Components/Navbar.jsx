@@ -45,7 +45,7 @@ export const Navbar = ({ active_menu }) => {
       <nav className="main_nav">
         {/* 1st logo part  */}
         <div className="logo">
-          <Link to={"/"}>Ecom-Store</Link>
+          <Link to={"/"}>e-Mart</Link>
         </div>
 
         {/* 2nd menu part  */}

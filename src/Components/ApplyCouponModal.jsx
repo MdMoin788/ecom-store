@@ -3,15 +3,23 @@
 import React, { useState } from "react";
 import "./Styles/Modal.css";
 import { RiCloseLine } from "react-icons/ri";
-
+import {
+  getAddressData,
+  getAddressError,
+  getAddressLoading,
+  getAddressSuccess,
+} from "../Redux/Address/action";
+import { useDispatch } from "react-redux";
 
 const ApplyCouponModal = ({
-
+  address,
+  userId,
+  token,
   setIsOpen,
   coupon_price,
   setApplyCoupon,
 }) => {
-
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -28,6 +36,7 @@ const ApplyCouponModal = ({
           </div>
           <div className="address_input  apply_coupons_container">
             <div>
+              {/* <input type="checkbox" /> */}
               <button
                 className="coupon_code"
                 onClick={() => {

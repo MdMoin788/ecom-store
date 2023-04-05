@@ -170,7 +170,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className="copyright_section">
-        <p>© 2021 - 2022 Ecom-Store Pvt. Ltd. All Rights Reserved</p>
+        <p>© 2021 - 2022 e-Mart Pvt. Ltd. All Rights Reserved</p>
       </div>
     </div>
   );
